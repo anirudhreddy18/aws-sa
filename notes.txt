@@ -1,0 +1,99 @@
+#### IAM -----------------------------------------------------------------------------------------------------------------------
+
+Console, UI, API 
+IAM Principal must be authenticated to send requests
+A principal is a user or app, role, federated User that can make a request for an action or operation on AWS Resource
+
+Policies define the permissions for identities or resources they are associated with
+
+Types
+Identity Based Policy - Users, groups & role
+Resource Based Policy - Resources such as s3 buckets or dynamo DB, VPC Endpoints
+
+Role are assumed by users,applications,services & delegated
+
+AWS determines approve/deny
+
+Identity Based JSON - Version, Sid, Action, Resource, Effect
+Resource Based JSON - Version, Sid, Action(API action s3:*), Resource(ARN of specific Resource), Effect, Principal(user/role)
+Trust Policy(Resource Based) - Effect(allow/deny), Prinicipal(ec2.amazon.com) Action(sts:assumeRole) assigned to Role
+
+Physcial tokens come from 3rd parties
+
+STS - temporary credentials include access key,secret key, session token , expiration
+Temporary credentials are used with identity federation, delegation, cross account and IAM Roles
+
+can change/enforce Password Policy
+inline polices have 1-1 relationship with user, group or role
+
+#### EC2 -----------------------------------------------------------------------------------------------------------------------
+
+EBS Volume is virtual hard drive
+
+User Data- dsts that can be entered when instance starts liek installing web server
+Metadata - get useeful infro about instance . curl http://169.254.169.254/latest/meta-data/local-ipv4
+
+Elastic network interface - multiple types check docs ENA, EFA
+
+Placement Groups 
+Cluster - High Performance & low latency (HPC) 
+Partition - Databases with Partinioning on different hardware.
+Spread - instances always run on separate hosts.
+
+ENI, ENA, EFA
+EC2 istance is actually deployed in AZ
+ENI - Multiple ENI's can connect to EC2 instances - they can be in different subnets but have to be in same AZ (No requirements & for all instance types)
+ENA - Enahnced networkign Performance . High bandwith & inter instance latency. Must choose instance type
+EFA - High Network Performance. Tightly coupled applications & all instance types
+
+Bastion Hosts - insatnce in public subnet can connect to instance in private subnet
+NAT Gateways - outbound connection to internet in private subnet. It can only be deployed in Public Subnet & has elastic ip
+
+AWS Nitro - next gen infrastuctrure. Most optimised & hig Performance
+AWS Nitro Enclaves - high Security like PII, health care data etc.
+
+Pricing Options
+OnDemand - standard rate not discount. short term or unpredictable workloads
+Reserved - committed 1 or 3year. Large Discount usefuk for services that needs to run all time
+Spot - Great discounts , instances can be terminated at any time. useful for instances that can recover if they are terminate in the middle. 2 min warning
+Scheduled Reserved - Runs on scheduled basis uninterrupted. Sunset in the future
+Dedicated instances - separate hardware only for you. Pay per instance expensive
+Dedicated Hosts - Physical Server dedicated for yout use. Pay per Host expensive
+Savings Plans - Commitment to consistent usage. Pay by hour, 1 or 3 year commitment.
+
+Billing
+Amazon linux & onDemand - Reserved, OnDemand & Spot - Billed per second
+Widows, Redhatm SUSE - Billed per hour
+EBS - Per second with min of 1 minute
+
+Spot Block - Run interrupted for certain time
+
+AutoScaling & Load Balancing
+
+Create Launch template & then ASG
+
+Group metrics  ASG - free every 1min
+cloud watch - every 5 min
+Detailed Monitoring - every 1min comes with cost
+
+####Load Balancers -----------------------------------------------------------------------------------------------------------------------
+
+ALB - Operates at request level. Layer 7 http/https. Supports Path based routing, host based query string. Supports instances, IP addresses, Lambda, ECS as targets
+NLB - Operates at conneciton level. Layer 4 TCP/UDP/TLS,TCP_UDP. High Perrformance, low latenct & TLS offloading. Static/Elastic IP supports UDP and static IP or onpremises as targets.
+Classic - Deprecated. Performas at layer 4 & 7. Use for existing apps running in EC2 Classic
+GLB - virtual appliances such as firewalls, IDS/IPS and deep packet inspection systems, Operates at layer 3. Geneve Protocol at 6081
+
+Create Target Group & create ALB (attach TG to ALB)
+Attach TG to ASG
+
+#### AWS Organization -----------------------------------------------------------------------------------------------------------------------
+manage multiple accounts 
+create new accounts
+consolidated Billing for all accounts - can also get discounts combining aggregated usage
+All features - ADD SCPS & tags which Api services to use
+Enable SSO on prem directory
+Enable cloud trail in mgmt ccount and apply to all members
+Users in management account are not affected by SCPS
+SCPS do not grant permissions, they control available permissions
+Organizational Unit - Test, Prod add accounts underneath OU & add SCPs to OU's - this will apply to all accounts
+Tag policies enforce tag standardizations
