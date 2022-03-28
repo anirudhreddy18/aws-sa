@@ -97,3 +97,11 @@ Users in management account are not affected by SCPS
 SCPS do not grant permissions, they control available permissions
 Organizational Unit - Test, Prod add accounts underneath OU & add SCPs to OU's - this will apply to all accounts
 Tag policies enforce tag standardizations
+
+VPC
+a vpc is logically isolated portion in AWS cloud within a region
+a subnet is assigned to 1 AZ.AZ can have multiple subnets
+internet gateway - 1 for vpc
+network acl subnhet level , security group instance level
+default 5 vpcs per region
+avoid overlapping ip addresses - needed for vpc peering
